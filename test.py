@@ -1,4 +1,3 @@
-import torch
 import cv2
 import numpy as np
 import time
@@ -8,12 +7,11 @@ from ultralytics import YOLO
 
 # ============== CONFIGURATION PARAMETERS ==============
 # Model settings
-MODEL_NAME = "yolov8n.pt"  # nano model - lightweight for RPi5
+MODEL_NAME = "yolov8n.pt"  # nano model - will be converted to ONNX
 # Common classes: person, cat, dog, car, phone, etc.
-# Edit after loading model if needed
 
 # Inference settings
-INFERENCE_INTERVAL = 2.0  # Run inference every N seconds (increase for slower RPi)
+INFERENCE_INTERVAL = 2.5  # Run inference every N seconds (increase for slower RPi)
 INFERENCE_FRAME_WIDTH = 416  # Width to resize frame for inference
 INFERENCE_FRAME_HEIGHT = 416  # Height to resize frame for inference
 
@@ -25,15 +23,11 @@ CONFIDENCE_THRESHOLD = 0.5  # Detection confidence threshold
 
 # Camera settings
 CAMERA_INDEX = 0  # Camera device index (0 = default camera)
-
-# Performance settings
-USE_FP16 = True  # Use half precision for faster inference
-MAX_FPS = 30  # Display FPS cap
 # =====================================================
 
-print("Loading YOLOv8 model (lightweight for RPi5)...")
+print("Loading YOLOv8 model (ONNX for RPi5)...")
+# Load model - ONNX mode automatically avoids PyTorch on RPi5
 model = YOLO(MODEL_NAME)
-model.to('cpu')  # RPi5 uses CPU
 
 print("Camera opened. Press 'q' to quit.")
 
@@ -124,6 +118,4 @@ while True:
 
 # Release resources
 cap.release()
-cv2.destroyAllWindows()
-
 cv2.destroyAllWindows()
